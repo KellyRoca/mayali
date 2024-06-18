@@ -1,0 +1,49 @@
+@use '@angular/material' as mat;
+@use '@angular/material/theming' as mat-theming;
+
+// Define your custom color palettes
+$custom-primary: mat.define-palette(
+  (
+    500: #f27822,
+    300: #f2af22,
+    700: #e05c00,
+  )
+);
+
+$custom-accent: mat.define-palette(
+  (
+    500: #22a9f2,
+    300: #5cd6ff,
+    700: #008bca,
+  )
+);
+
+$custom-warn: mat.define-palette(
+  (
+    500: #f24322,
+  )
+);
+
+// Define your custom theme
+$custom-theme: mat-theming.define-light-theme(
+  (
+    color: (
+      primary: $custom-primary,
+      accent: $custom-accent,
+      warn: $custom-warn,
+    ),
+    typography: mat.define-typography-config(
+      $font-family: 'Montserrat, sans-serif'
+    ),
+  )
+);
+
+// Include the core and all component theme styles
+@include mat-theming.core();
+@include mat-theming.all-component-themes($custom-theme);
+
+// Optionally include typography styles
+@include mat-theming.typography($custom-theme);
+
+// Optionally include density styles
+@include mat-theming.density($custom-theme);

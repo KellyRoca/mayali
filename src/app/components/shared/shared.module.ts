@@ -1,0 +1,28 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HeaderComponent } from './header/header.component';
+import { MenuComponent } from './menu/menu.component';
+import { CardComponent } from './card/card.component';
+import { HeaderMobileComponent } from './header-mobile/header-mobile.component';
+import { MaterialModule } from './material.module';
+
+const components = [
+  HeaderComponent,
+  MenuComponent,
+  CardComponent,
+  HeaderMobileComponent
+]
+
+@NgModule({
+  declarations: [
+    ...components,
+  ],
+  imports: [
+    CommonModule,
+    MaterialModule
+  ],
+  exports: [
+    ...components
+  ]
+})
+export class SharedModule { }

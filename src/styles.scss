@@ -1,0 +1,92 @@
+
+@use '@angular/material' as mat;
+@include mat.core();
+
+$mayali-primary: mat.define-palette(mat.$indigo-palette);
+$mayali-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// // The warn palette is optional (defaults to red).
+$mayali-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$mayali-theme: mat.define-light-theme((
+  color: (
+    primary: $mayali-primary,
+    accent: $mayali-accent,
+    warn: $mayali-warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($mayali-theme);
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+
+body,
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+:root {
+  --orange: #f27822;
+  --cetacean: #000f49;
+  --white: #fcfcfd;
+  --gray: #e4e7ec;
+  --red: #f24322;
+  --yellow: #f2af22;
+  --skyblue: #22a9f2;
+  --green: #5cf222;
+}
+
+.fh1{
+  font-size: 40px;
+  letter-spacing: -1%;
+  font-weight: 700;
+}
+
+.fh2{
+  font-size: 20px;
+  font-weight: 700;
+  @media (min-width: 768px){
+    font-size: 32px;
+  }
+}
+
+.fh3{
+  font-size: 24px;
+  letter-spacing: -1%;
+  font-weight: 700;
+}
+
+.fh4{
+  font-size: 20px;
+  letter-spacing: -1%;
+  font-weight: 700;
+}
+
+.fp16{
+  font-size: 16px;
+  letter-spacing: -1%;
+}
+
+.fp14{
+  font-size: 14px;
+  letter-spacing: -1%;
+}
+
+.fp12{
+  font-size: 12px;
+  letter-spacing: -1%;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family:  "Montserrat", sans-serif }
