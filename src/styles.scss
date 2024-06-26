@@ -1,30 +1,4 @@
-
-@use '@angular/material' as mat;
-@include mat.core();
-
-$mayali-primary: mat.define-palette(mat.$indigo-palette);
-$mayali-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-
-// // The warn palette is optional (defaults to red).
-$mayali-warn: mat.define-palette(mat.$red-palette);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$mayali-theme: mat.define-light-theme((
-  color: (
-    primary: $mayali-primary,
-    accent: $mayali-accent,
-    warn: $mayali-warn,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0
-));
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($mayali-theme);
-
+@import "src/custom-theme.scss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -36,6 +10,10 @@ body,
   font-family: "Montserrat", sans-serif;
 }
 
+.mdc-notched-outline__notch {
+  border-right: none !important;
+}
+
 :root {
   --orange: #f27822;
   --cetacean: #000f49;
@@ -45,48 +23,82 @@ body,
   --yellow: #f2af22;
   --skyblue: #22a9f2;
   --green: #5cf222;
+  --cetacean-50: #000F4980;
+
 }
 
-.fh1{
-  font-size: 40px;
+.fh1 {
+  font-size: 30px;
   letter-spacing: -1%;
   font-weight: 700;
+  @media (min-width: 768px) {
+    font-size: 35px;
+  }
 }
 
-.fh2{
+.fh2 {
   font-size: 20px;
   font-weight: 700;
-  @media (min-width: 768px){
+  @media (min-width: 768px) {
     font-size: 32px;
   }
 }
 
-.fh3{
+.fh3 {
   font-size: 24px;
   letter-spacing: -1%;
   font-weight: 700;
 }
 
-.fh4{
+.fh4 {
   font-size: 20px;
   letter-spacing: -1%;
   font-weight: 700;
 }
 
-.fp16{
-  font-size: 16px;
+.fs16 {
+  font-size: 16px !important;
   letter-spacing: -1%;
 }
 
-.fp14{
-  font-size: 14px;
+.fs14 {
+  font-size: 14px !important;
   letter-spacing: -1%;
 }
 
-.fp12{
-  font-size: 12px;
+.fs12 {
+  font-size: 12px !important;
   letter-spacing: -1%;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family:  "Montserrat", sans-serif }
+.mr-0 {
+  margin-right: 0 !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+.form-btn {
+  height: 56px !important;
+  width: 100%;
+  max-width: 394px !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+}
+
+mat-error {
+  font-size: 10px;
+}
+
+.mayali-container{
+  min-height: calc(100dvh - 90px) !important;
+  @media (min-width: 768px) {
+    min-height: calc(100dvh - 120px) !important;
+  }
+}

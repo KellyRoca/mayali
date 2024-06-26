@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -8,8 +9,12 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class HeaderComponent implements OnInit {
   isAuthenticated: boolean = false;
+  openMenu: boolean = true;
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   path: string;
 
@@ -29,7 +34,11 @@ export class HeaderComponent implements OnInit {
     console.log(e)
     const navlinks = document.querySelector(".navLinks");
     e.name = e.name === "menu" ? "close" : "menu";
+    this.openMenu = (e.name === "menu") ? false : true;
     navlinks.classList.toggle("left-[0%]")
   }
 
+  goTo(url: string){
+    this.router.navigate([url]);
+  }
 }

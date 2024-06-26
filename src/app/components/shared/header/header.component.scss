@@ -4,7 +4,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    background-color: #f8f8f8;
+    background-color: white;
 
     .logo {
       font-size: 1.5rem;
@@ -17,6 +17,10 @@ header {
       border: none;
       font-size: 1.5rem;
     }
+    @media (min-width: 768px) {
+      height: 80px;
+    }
+    height: 50px;
   }
 
   .banner {

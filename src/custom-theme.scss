@@ -1,49 +1,58 @@
 @use '@angular/material' as mat;
-@use '@angular/material/theming' as mat-theming;
+@include mat.core();
 
-// Define your custom color palettes
-$custom-primary: mat.define-palette(
-  (
-    500: #f27822,
-    300: #f2af22,
-    700: #e05c00,
-  )
+// Custom blue color
+$my-blue: (
+  50: #000f49,
+  100: #000f49,
+  200: #000f49,
+  300: #000f49,
+  400: #000f49,
+  500: #000f49,
+  600: #000f49,
+  700: #000f49,
+  800: #000f49,
+  900: #000f49,
+  A100: #000f49,
+  A200: #000f49,
+  A400: #000f49,
+  A700: #000f49,
+  contrast: (
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+  ),
 );
 
-$custom-accent: mat.define-palette(
-  (
-    500: #22a9f2,
-    300: #5cd6ff,
-    700: #008bca,
-  )
-);
+// Color name, default value, lighter value, darker value.
+$primary: mat.define-palette($my-blue);
+$accent: mat.define-palette(mat.$orange-palette, 800);
+$warn: mat.define-palette(mat.$red-palette);
 
-$custom-warn: mat.define-palette(
-  (
-    500: #f24322,
-  )
-);
-
-// Define your custom theme
-$custom-theme: mat-theming.define-light-theme(
+$theme: mat.define-light-theme(
   (
     color: (
-      primary: $custom-primary,
-      accent: $custom-accent,
-      warn: $custom-warn,
+      primary: $primary,
+      accent: $accent,
+      warn: $warn,
     ),
-    typography: mat.define-typography-config(
-      $font-family: 'Montserrat, sans-serif'
-    ),
+    typography: mat.define-typography-config(),
+    density: 0,
   )
 );
 
-// Include the core and all component theme styles
-@include mat-theming.core();
-@include mat-theming.all-component-themes($custom-theme);
-
-// Optionally include typography styles
-@include mat-theming.typography($custom-theme);
-
-// Optionally include density styles
-@include mat-theming.density($custom-theme);
+html {
+  @include mat.all-component-themes($theme);
+}
+// @include mat.all-legacy-component-themes($theme); //eliminar legacy styles

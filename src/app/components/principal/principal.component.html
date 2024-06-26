@@ -1,8 +1,10 @@
-<div>
+<div class="p-5">
   <h1>Products</h1>
+  
+
   <section class="container">
     <section class="product-card" *ngFor="let product of products">
-      <img src="" alt="">
+      <img class="product-card__img" [src]="product.img" alt="">
       <section class="product-card__description">
         <h2 class="product-card__name">{{ product.name }}</h2>
         <p class="product-card__price">{{ product.price }}</p>
