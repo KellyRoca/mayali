@@ -21,7 +21,7 @@ export class RegisterComponent {
     private snackBar: MatSnackBar,
   ) {
     this.stepOneForm = this.fb.group({
-      ruc: ['', [Validators.required]],
+      ruc: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       promo: [false],
@@ -34,7 +34,7 @@ export class RegisterComponent {
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       middleName: ['', [Validators.required]],
-      phone: ['', [Validators.required]]
+      phone: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]]
     });
   }
 
@@ -52,6 +52,7 @@ export class RegisterComponent {
       try {
         await this.authService.signUp(email, password, firstName, lastName, middleName, docType, docNumber, phone, ruc);
         console.log('User created successfully');
+        this.authService.setHasUser(true);
         this.router.navigate(['/']); // Redirigir a la página de inicio después del registro
       } catch (error) {
         if (error.message === 'EMAIL_ALREADY_IN_USE') {

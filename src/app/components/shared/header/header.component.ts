@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
 import { AuthService } from 'src/app/services/firebase/auth.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cartService: CartService
+    private cartService: CartService,
+    private storageService: StorageService
   ) { }
 
   path: string;
@@ -56,13 +58,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // this.authService.isAuthenticated$.subscribe(authenticated => {
     //   this.isAuthenticated = authenticated;
     // });
+    this.storageService.get('user').subscribe((res) => {
+      console.log(res)
+      if(res ==  null){
+        this.isAuthenticated = false;
+      }else {
+        this.isAuthenticated = true;
+      }
+    })
+
     this.checkScreenSize();
+
+    this.authService.isAuthenticated$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+      this.isAuthenticated = res;
+    })
 
     this.cartService.cartSubject$
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         this.cartItems = res === null ? [] : res;
-      })
+      });
   }
 
   ngOnDestroy(): void {
@@ -75,36 +90,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    this.authService.setHasUser(false);
     this.authService.signOut();
   }
 
   menuOpen = false;
 
-  // onMenuToggle(e) {
-  //   const navlinks = document.querySelector(".navLinks");
-  //   e.name = e.name === "menu" ? "close" : "menu";
-  //   this.openMenu = (e.name === "menu") ? false : true;
-  //   navlinks.classList.toggle("left-[0%]")
-  //   if(e.name === "menu"){
-  //     document.body.classList.add('openSidebar');
-  //   }else{
-  //     document.body.classList.remove('openSidebar');
-  //   }
-  // }
-
   onMenuToggle() {
     this.openMenu = !this.openMenu;
-
+    const navlinks = document.querySelector(".navLinks");
     if (this.openMenu) {
-      console.log('oo')
+      
       document.body.classList.add('openSidebar');
+      navlinks.classList.toggle("left-[0%]")
     } else {
       document.body.classList.remove('openSidebar');
+      navlinks.classList.remove("left-[0%]")
     }
 
   }
 
   goTo(url: string) {
     this.router.navigate([url]);
+    this.onMenuToggle();
   }
 }

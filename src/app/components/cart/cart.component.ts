@@ -1,5 +1,5 @@
 import { StorageService } from './../../services/storage.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CartItem } from 'src/app/interface/model';
 import { CartService } from 'src/app/services/cart.service';
@@ -7,34 +7,49 @@ import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog
 import { Router } from '@angular/router';
 import { PreviewOrderComponent } from '../dialogs/preview-order/preview-order.component';
 import { GenerateOrderComponent } from '../dialogs/generate-order/generate-order.component';
+import { Subject, takeUntil } from 'rxjs';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
   cartItems: CartItem[] = [];
   selectedItems: boolean[] = [];
+  destroy$ = new Subject<void>();
 
   constructor(
     private cartService: CartService,
     private storageService: StorageService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     this.storageService.get('cart').subscribe((res: CartItem[]) => {
-      this.cartItems = res;
-      if (this.cartItems == null) {
-        this.cartItems = [];
-        return;
-      }
+      this.cartItems = res == null ? []: res;
+      this.cd.detectChanges();
+      console.log(this.cartItems, 'valuuueee')
       this.selectedItems = new Array(this.cartItems?.length).fill(false);
     })
+
+    // this.cartItems = this.cartService.getCart();
+    // this.selectedItems = new Array(this.cartItems?.length).fill(false);
+    // this.cartService.cartSubject$
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe((res) => {
+    //     this.cartItems = res === null ? [] : res;
+    //     this.selectedItems = new Array(this.cartItems?.length).fill(false);
+    //   });
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
 
   decreaseQuantity(item: CartItem): void {

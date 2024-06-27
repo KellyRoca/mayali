@@ -10,6 +10,10 @@ body,
   font-family: "Montserrat", sans-serif;
 }
 
+.font-mayali {
+  font-family: "Montserrat", sans-serif !important;
+}
+
 .mdc-notched-outline__notch {
   border-right: none !important;
 }
@@ -127,7 +131,7 @@ button.mdc-fab.mdc-fab--mini.mat-mdc-mini-fab.mat-accent.mat-mdc-button-base {
 }
 
 .strong{
-  font-weight: 800;
+  font-weight: 800 !important;
 }
 
 .mdc-dialog__surface{

@@ -1,5 +1,5 @@
-<div class="p-5 max-w-[1200px]">
-  <h1>Products</h1>
+<div class="p-5 max-w-[1200px] m-auto">
+  <h1 class="fh1 mt-5 md:mt-20 mb-4">Productos</h1>
 
   <section class="container">
     <section class="product-card" *ngFor="let product of products">
@@ -11,7 +11,7 @@
         </section>
 
         <section *ngIf="!isInCart(product.id)">
-          <button mat-flat-button color="accent" class="product-card__add-btn mt-3 w-full" (click)="addToCart(product)">Agregar</button>
+          <button mat-flat-button color="accent" class="product-card__add-btn mt-3 w-full cursor-pointer" (click)="addToCart(product)">Agregar</button>
         </section>
 
         <section *ngIf="isInCart(product.id)" class="flex items-center mt-3 place-content-center gap-3">
@@ -29,19 +29,6 @@
       </section>
 
     </section>
-
-    <button (click)="goToCart()">Ir al carrito</button>
-
-    <section class="cart">
-      <h2>Carrito de Compras</h2>
-      <ul>
-        <li *ngFor="let item of cart">
-          {{ item | json}}
-        </li>
-      </ul>
-    </section>
-
-
 
   </section>
 

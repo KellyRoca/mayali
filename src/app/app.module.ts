@@ -22,6 +22,7 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { PreviewOrderComponent } from './components/dialogs/preview-order/preview-order.component';
 import { GenerateOrderComponent } from './components/dialogs/generate-order/generate-order.component';
+import { NeedLoginComponent } from './components/dialogs/need-login/need-login.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { GenerateOrderComponent } from './components/dialogs/generate-order/gene
     LoginComponent,
     ConfirmDialogComponent,
     PreviewOrderComponent,
-    GenerateOrderComponent
+    GenerateOrderComponent,
+    NeedLoginComponent
   ],
   imports: [
     BrowserModule,

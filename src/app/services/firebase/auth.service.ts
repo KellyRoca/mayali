@@ -1,20 +1,26 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { from, lastValueFrom } from 'rxjs';
+import { BehaviorSubject, from, lastValueFrom } from 'rxjs';
 import { Storage } from '@ionic/storage-angular';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+
+  private isAuthenticated = new BehaviorSubject<boolean>(null);
+  isAuthenticated$ = this.isAuthenticated.asObservable();
+
   private _storage: Storage | null = null;
 
   constructor(
     private afAuth: AngularFireAuth,
     private firestore: AngularFirestore,
-    private storage: Storage
+    private storage: Storage,
+    private router: Router
   ) {
     this.init();
   }
@@ -22,6 +28,14 @@ export class AuthService {
   async init() {
     const storage = await this.storage.create();
     this._storage = storage;
+  }
+
+  setHasUser(value: boolean) {
+    this.isAuthenticated.next(value);
+  }
+
+  getHasUser() {
+    return this.isAuthenticated.getValue();
   }
 
   async signUp(email: string, password: string, firstName: string, lastName: string, middleName: string, docType: string, docNumber: string, phone: string, ruc: string) {
@@ -78,5 +92,6 @@ export class AuthService {
   async signOut() {
     await this.afAuth.signOut();
     await this._storage?.clear();
+    this.router.navigate(['']);
   }
 }

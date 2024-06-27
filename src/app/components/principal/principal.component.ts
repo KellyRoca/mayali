@@ -1,9 +1,11 @@
+import { NeedLoginComponent } from './../dialogs/need-login/need-login.component';
 import { CartItem, Product } from './../../interface/model.d';
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { FireDatabaseService } from '../../services/firebase/fire-database.service';
 import { Router } from '@angular/router';
 import { StorageService } from 'src/app/services/storage.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-principal',
@@ -12,6 +14,7 @@ import { StorageService } from 'src/app/services/storage.service';
 })
 export class PrincipalComponent implements OnInit {
   // products: Product[] = [];
+  hasUser: boolean = false;
   products: Product[] = [
     {
       description: "Primor 900ml caja por 12 unidades",
@@ -35,32 +38,28 @@ export class PrincipalComponent implements OnInit {
     private cartService: CartService,
     private fireDatabase: FireDatabaseService,
     private router: Router,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private dialog: MatDialog,
   ) { }
 
-  // addToCart(product: any) {
-  //   this.cartService.addProduct(product);
-  //   // productId: 1, items: 5,
-  //   console.log(this.cartService.getItems())
-  // }
 
   ngOnInit(): void {
-    // this.fireDatabase.getProducts().subscribe(data => {
-    //   console.log(data)
-    //   this.products = data;
-    // });
+    this.storageService.get('user').subscribe((res) => {
+      this.hasUser = res == null ? false : true;
+    })
 
     this.cartService.setProductCatalog(this.products);
     this.storageService.set('products', this.products);
 
     this.storageService.get('cart').subscribe((res: null | CartItem[]) => {
-      if(res != null){
+      if (res != null) {
         this.cart = res;
       }
     })
   }
 
   addToCart(product: Product) {
+    if(!this.hasUser) return this.openDialogRedirect();
     let cartItem = this.cart.find(item => item.id === product.id);
     if (cartItem) {
       cartItem.quantity++;
@@ -68,6 +67,20 @@ export class PrincipalComponent implements OnInit {
       this.cart.push({ id: product.id, quantity: 1, price: product.price, name: product.name, image: product.img });
     }
     this.updateCartService();
+  }
+
+  openDialogRedirect(){
+    this.dialog.open(NeedLoginComponent, {
+      width: '90%',
+      maxWidth: '570px',
+      autoFocus: false,
+      data: {
+      },
+      minHeight: '250px',
+      disableClose: true,
+    }).afterClosed().subscribe(() => {
+      this.router.navigate(['/login']);
+    });
   }
 
   incrementQuantity(product: Product) {
@@ -111,12 +124,12 @@ export class PrincipalComponent implements OnInit {
   }
 
 
-  goToCart(){
+  goToCart() {
     this.cartService.setCart(this.cart);
     this.router.navigate(['/cart'],)
   }
 
-  updateCartService(){
+  updateCartService() {
     this.cartService.setCart(this.cart);
     this.storageService.set('cart', this.cart);
   }

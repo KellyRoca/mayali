@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.invalid) return;
     try {
       await this.authService.signIn(this.loginForm.get("email").value, this.loginForm.get("password").value);
+      this.authService.setHasUser(true);
       this.router.navigate(['/']);
     } catch (error) {
       if (error.message === 'INVALID_CREDENTIAL') {
