@@ -1,4 +1,4 @@
-<div class="p-5">
+<div class="p-5 max-w-[1200px]">
   <h1>Products</h1>
 
   <section class="container">
@@ -17,7 +17,7 @@
         <section *ngIf="isInCart(product.id)" class="flex items-center mt-3 place-content-center gap-3">
           <button mat-mini-fab (click)="decrementQuantity(product)">
             <mat-icon *ngIf="getCartItem(product?.id)?.quantity > 1">remove</mat-icon>
-            <mat-icon *ngIf="getCartItem(product?.id)?.quantity === 1">delete</mat-icon>
+            <mat-icon *ngIf="getCartItem(product?.id)?.quantity <= 1">delete</mat-icon>
           </button>
           <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-[50px] text-center"
            type="number" [(ngModel)]="getCartItem(product.id).quantity" min="1" (ngModelChange)="updateQuantity(product, $event)">

@@ -1,14 +1,3 @@
-// import { CanActivateFn } from '@angular/router';
-// import { inject } from '@angular/core';
-// import { Router } from '@angular/router';
-// import { AuthService } from './firebase/auth.service';
-
-// export const authGuard: CanActivateFn = (route, state) => {
-//   const authService = inject(AuthService);
-//   const router = inject(Router);
-
-//   return true
-// };
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
@@ -24,12 +13,18 @@ export class AuthGuard implements CanActivate {
   }
 
   async init() {
-    const storage = await this.storage.create();
-    this._storage = storage;
+    this._storage = await this.storage.create();
   }
 
   async canActivate(): Promise<boolean> {
+    // Esperar la inicialización del almacenamiento si no está listo
+    if (!this._storage) {
+      await this.init();
+    }
+
     const user = await this._storage?.get('user');
+    console.log(user);
+
     if (user) {
       return true;
     } else {

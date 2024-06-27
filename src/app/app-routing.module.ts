@@ -10,9 +10,6 @@ import { AuthGuard } from 'src/app/services/auth.guard';
 
 const routes: Routes = [
   { path: '', component: PrincipalComponent },
-  // { path: 'cart', component: CartComponent },
-  // { path: 'order-confirmed', component: OrderConfirmedComponent },
-  // { path: 'order-history', component: OrderHistoryComponent },
   { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
   { path: 'order-confirmed', component: OrderConfirmedComponent, canActivate: [AuthGuard] },
   { path: 'order-history', component: OrderHistoryComponent, canActivate: [AuthGuard] },

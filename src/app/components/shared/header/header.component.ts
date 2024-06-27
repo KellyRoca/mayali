@@ -1,5 +1,7 @@
-import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+import { CartService } from 'src/app/services/cart.service';
 import { AuthService } from 'src/app/services/firebase/auth.service';
 
 @Component({
@@ -7,14 +9,18 @@ import { AuthService } from 'src/app/services/firebase/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
+
+  destroy$ = new Subject<void>();
+
   isAuthenticated: boolean = false;
   openMenu: boolean = false;
   isMobile = false;
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cartService: CartService
   ) { }
 
   path: string;
@@ -51,6 +57,17 @@ export class HeaderComponent implements OnInit {
     //   this.isAuthenticated = authenticated;
     // });
     this.checkScreenSize();
+
+    this.cartService.cartSubject$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => {
+        this.cartItems = res === null ? [] : res;
+      })
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   checkScreenSize() {
@@ -84,7 +101,7 @@ export class HeaderComponent implements OnInit {
     } else {
       document.body.classList.remove('openSidebar');
     }
-    
+
   }
 
   goTo(url: string) {

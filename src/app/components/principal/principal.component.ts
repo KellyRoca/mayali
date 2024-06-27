@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { FireDatabaseService } from '../../services/firebase/fire-database.service';
 import { Router } from '@angular/router';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-principal',
@@ -33,7 +34,8 @@ export class PrincipalComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private fireDatabase: FireDatabaseService,
-    private router: Router
+    private router: Router,
+    private storageService: StorageService
   ) { }
 
   // addToCart(product: any) {
@@ -49,6 +51,13 @@ export class PrincipalComponent implements OnInit {
     // });
 
     this.cartService.setProductCatalog(this.products);
+    this.storageService.set('products', this.products);
+
+    this.storageService.get('cart').subscribe((res: null | CartItem[]) => {
+      if(res != null){
+        this.cart = res;
+      }
+    })
   }
 
   addToCart(product: Product) {
@@ -56,8 +65,9 @@ export class PrincipalComponent implements OnInit {
     if (cartItem) {
       cartItem.quantity++;
     } else {
-      this.cart.push({ id: product.id, quantity: 1 });
+      this.cart.push({ id: product.id, quantity: 1, price: product.price, name: product.name, image: product.img });
     }
+    this.updateCartService();
   }
 
   incrementQuantity(product: Product) {
@@ -65,6 +75,7 @@ export class PrincipalComponent implements OnInit {
     if (cartItem) {
       cartItem.quantity++;
     }
+    this.updateCartService();
   }
 
   decrementQuantity(product: Product) {
@@ -76,6 +87,7 @@ export class PrincipalComponent implements OnInit {
         this.cart = this.cart.filter(item => item.id !== product.id);
       }
     }
+    this.updateCartService();
   }
 
   isInCart(productId: string): boolean {
@@ -95,11 +107,17 @@ export class PrincipalComponent implements OnInit {
         cartItem.quantity = quantity;
       }
     }
+    this.updateCartService();
   }
 
 
   goToCart(){
-    this.cartService.updateCart(this.cart);
+    this.cartService.setCart(this.cart);
     this.router.navigate(['/cart'],)
+  }
+
+  updateCartService(){
+    this.cartService.setCart(this.cart);
+    this.storageService.set('cart', this.cart);
   }
 }

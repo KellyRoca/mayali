@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/firebase/auth.service';
-// import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', Validators.required),
@@ -27,21 +28,19 @@ export class LoginComponent implements OnInit {
     return;
   }
 
-  // onSubmit() {
-  //   if(this.loginForm.valid){
-  //     this.authService.signIn(this.loginForm.get("email").value, this.loginForm.get("password").value)
-  //     this.router.navigate(['/']);
-  //   }
-  // }
-
   async onSubmit() {
     if(this.loginForm.invalid) return;
     try {
       await this.authService.signIn(this.loginForm.get("email").value, this.loginForm.get("password").value);
-      console.log('User signed in successfully');
-      this.router.navigate(['/']); // Redirigir a la página de inicio después del inicio de sesión
+      this.router.navigate(['/']);
     } catch (error) {
-      console.error('Error signing in user:', error);
+      if (error.message === 'INVALID_CREDENTIAL') {
+        this.snackBar.open("Las credenciales ingresadas son incorrectas.", null, { duration: 3000 });
+      } else if(error.message === 'INVALID_EMAIL') {
+        this.snackBar.open("El correo electrónico no está en el formato correcto.", null, { duration: 3000 });
+      }else{
+        console.error('Error signing in user:', error);
+      }
     }
   }
 }

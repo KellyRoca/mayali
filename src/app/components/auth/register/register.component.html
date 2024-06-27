@@ -100,7 +100,7 @@
       </mat-form-field>
       <mat-checkbox class="mb-2" formControlName="promo">Autorizo recibir comunicaciones promocionales.</mat-checkbox>
       <mat-checkbox class="mb-2" formControlName="terms">He leído y acepto los Términos y condiciones y Políticas de privacidad de DexMayali.</mat-checkbox>
-      <button mat-flat-button color="accent" class="form-btn mt-5" type="submit">Siguiente</button>
+      <button mat-flat-button color="accent" class="form-btn mt-5" type="submit" [disabled]="stepOneForm.invalid">Siguiente</button>
       <section class="mt-4">
         <p class="text-[var(--cetacean-50)] fs14 text-center">Ya tienes una cuenta <a routerLink="/login" class="cursor-pointer text-[var(--skyblue)] fs-14">Iniciar sesión</a></p>
       </section>
@@ -140,7 +140,7 @@
           <mat-label>N° de celular</mat-label>
           <input matInput formControlName="phone" placeholder="Ingresa tu número de celular">
         </mat-form-field>
-        <button mat-flat-button color="accent" class="form-btn" type="submit">Crear cuenta</button>
+        <button mat-flat-button color="accent" class="form-btn" type="submit" [disabled]="stepTwoForm.invalid">Crear cuenta</button>
       </form>
     </ng-template>
   </section>

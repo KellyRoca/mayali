@@ -23,25 +23,8 @@ export class AuthService {
     const storage = await this.storage.create();
     this._storage = storage;
   }
-  
-  // async signUp(email: string, password: string, firstName: string, lastName: string, middleName: string, docType: string, docNumber: string, phone: string) {
-  //   const userCredential = await this.afAuth.createUserWithEmailAndPassword(email, password);
-  //   const user = userCredential.user;
-  //   if (user) {
-  //     await this.firestore.collection('users').doc(user.uid).set({
-  //       firstName: firstName,
-  //       lastName: lastName,
-  //       middleName: middleName,
-  //       docType: docType,
-  //       docNumber: docNumber,
-  //       phone: phone,
-  //       email: email
-  //     });
-  //     await this._storage?.set('user', { email, password, firstName, lastName, middleName, docType, docNumber, phone });
-  //   }
-  // }
 
-  async signUp(email: string, password: string, firstName: string, lastName: string, middleName: string, docType: string, docNumber: string, phone: string) {
+  async signUp(email: string, password: string, firstName: string, lastName: string, middleName: string, docType: string, docNumber: string, phone: string, ruc: string) {
     try {
       const userCredential = await this.afAuth.createUserWithEmailAndPassword(email, password);
       const user = userCredential.user;
@@ -53,9 +36,10 @@ export class AuthService {
           docType: docType,
           docNumber: docNumber,
           phone: phone,
-          email: email
+          email: email,
+          ruc: ruc
         });
-        await this._storage?.set('user', { email, password, firstName, lastName, middleName, docType, docNumber, phone });
+        await this._storage?.set('user', { email, password, firstName, lastName, middleName, docType, docNumber, phone, user: user.uid, ruc });
       }
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
@@ -75,14 +59,19 @@ export class AuthService {
         const userDoc = await lastValueFrom(userDocRef.get());
         const userData: any = userDoc.data();
         if (userData) {
-          await this._storage?.set('user', { email, password, ...userData });
+          await this._storage?.set('user', { email, password, ...userData, user: user.uid });
         } else {
           console.error('User data not found in Firestore');
         }
       }
     } catch (error) {
-      console.error('Error signing in:', error);
-      throw error;
+      if (error.code === 'auth/invalid-credential') {
+        throw new Error('INVALID_CREDENTIAL');
+      } else if (error.code === 'auth/invalid-email') {
+        throw new Error('INVALID_EMAIL');
+      } else {
+        throw error;
+      }
     }
   }
 
@@ -90,41 +79,4 @@ export class AuthService {
     await this.afAuth.signOut();
     await this._storage?.clear();
   }
-  // async signUp(email: string, password: string, firstName: string, lastName: string) {
-  //   const userCredential = await this.afAuth.createUserWithEmailAndPassword(email, password);
-  //   const user = userCredential.user;
-  //   if (user) {
-  //     await this.firestore.collection('users').doc(user.uid).set({
-  //       firstName: firstName,
-  //       lastName: lastName,
-  //       email: email
-  //     });
-  //     await this._storage?.set('user', { email, password });
-  //   }
-  // }
-
-  // async signIn(email: string, password: string) {
-  //   try {
-  //     const userCredential = await this.afAuth.signInWithEmailAndPassword(email, password);
-  //     const user = userCredential.user;
-  //     if (user) {
-  //       const userDocRef = this.firestore.collection('users').doc(user.uid);
-  //       const userDoc = await lastValueFrom(userDocRef.get());
-  //       const userData: any = userDoc.data();
-  //       if (userData) {
-  //         await this._storage?.set('user', { email, password, ...userData });
-  //       } else {
-  //         console.error('User data not found in Firestore');
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error('Error signing in:', error);
-  //     throw error;
-  //   }
-  // }
-
-  // async logOut() {
-  //   await this.afAuth.signOut();
-  //   await this._storage?.clear();
-  // }
 }

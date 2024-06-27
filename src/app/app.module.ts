@@ -19,6 +19,9 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { MaterialModule } from './components/shared/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
+import { PreviewOrderComponent } from './components/dialogs/preview-order/preview-order.component';
+import { GenerateOrderComponent } from './components/dialogs/generate-order/generate-order.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { IonicStorageModule } from '@ionic/storage-angular';
     OrderConfirmedComponent,
     OrderHistoryComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    ConfirmDialogComponent,
+    PreviewOrderComponent,
+    GenerateOrderComponent
   ],
   imports: [
     BrowserModule,

@@ -1,15 +1,3 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-register',
-//   templateUrl: './register.component.html',
-//   styleUrl: './register.component.scss'
-// })
-// export class RegisterComponent {
-//   stepOne: boolean = true;
-
-// }
-
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -58,16 +46,14 @@ export class RegisterComponent {
 
   async onSignUp() {
     if (this.stepTwoForm.valid) {
-      const { email, password } = this.stepOneForm.value;
+      const { email, password, ruc } = this.stepOneForm.value;
       const { firstName, lastName, middleName, docType, docNumber, phone } = this.stepTwoForm.value;
 
       try {
-        await this.authService.signUp(email, password, firstName, lastName, middleName, docType, docNumber, phone);
+        await this.authService.signUp(email, password, firstName, lastName, middleName, docType, docNumber, phone, ruc);
         console.log('User created successfully');
         this.router.navigate(['/']); // Redirigir a la página de inicio después del registro
       } catch (error) {
-
-        // console.error('Error creating user:', error);
         if (error.message === 'EMAIL_ALREADY_IN_USE') {
           this.snackBar.open("El correo electrónico ya está en uso. Por favor, utiliza otro correo electrónico.", null, { duration: 3000 });
           this.stepOne = true; // Volver al primer paso para que el usuario pueda corregir el email

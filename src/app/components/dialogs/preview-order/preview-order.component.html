@@ -1,0 +1,79 @@
+<!-- <h1 mat-dialog-title>Confirmar acción</h1>
+<div mat-dialog-content>
+  ¿Estás seguro de que deseas vaciar el carrito?
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Sí</button>
+</div> -->
+<section class="md:p-6 px-4 py-6">
+  <section>
+    <h2 class="fh3 text-[var(--cetacean)] mb-3 md:mb-6">Previsualización de orden de compra</h2>
+  </section>
+  <section class="border-gray-500 rounded-xl p-3 border-solid ticket-preview">
+    <section class="flex flex-col w-full">
+      <section class="self-end">
+        <h2 class="fs16 text-[var(--cetacean)]">DexMayali S.A.C.</h2>
+        <p class="fs16 text-[var(--cetacean)]">{{'facturacion@dexmayali.com'}}</p>
+      </section>
+      <section class="flex flex-col md:gap-8 gap-3">
+        <section>
+          <!-- <p class="fs16 font-bold text-[var(--cetacean)]">Cliente: <span class="font-normal">{{currentDate | date:'dd/MM/yyyy'}}</span></p> -->
+          <p class="fs16 font-bold text-[var(--cetacean)]">RUC: <span class="font-normal">{{userData?.ruc}}</span></p>
+          <p class="fs16 font-bold text-[var(--cetacean)]">Solicitante: <span class="font-normal">{{userData?.firstName + userData?.lastName}}</span></p>
+          <p class="fs16 font-bold text-[var(--cetacean)]">N° de contacto: <span class="font-normal">{{userData?.phone}}</span></p>
+        </section>
+        <section>
+
+        </section>
+      </section>
+    </section>
+
+    <table class="cart-table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of cartItems">
+          <td>{{ item.name }}</td>
+          <td>S/ {{ item.price }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>S/ {{ item.price * item.quantity | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">Subtotal sin IGV:</td>
+          <td>S/ {{ subtotal }}</td>
+        </tr>
+        <tr>
+          <td colspan="3">IGV:</td>
+          <td>S/ {{ igv }}</td>
+        </tr>
+        <tr>
+          <td colspan="3">Costo de Envío:</td>
+          <td>Gratis</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="3">Total:</td>
+          <td>S/ {{ total }}</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <section>
+      <!-- <p class="fs16 font-bold text-[var(--cetacean)]">Cliente: <span class="font-normal">{{currentDate | date:'dd/MM/yyyy'}}</span></p> -->
+      <p class="fs16 font-bold text-[var(--cetacean)]">Comentarios:</p>
+      <section class="fs16 text-[var(--cetacean)] p-3 border-solid">Este documento es una previsualización, no tiene índole tributaria ni legal.</section>
+    </section>
+
+    <!-- <div class="modal-footer">
+      <button mat-button (click)="onClose()">Cerrar</button>
+    </div> -->
+  </section>
+</section>
