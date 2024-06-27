@@ -11,7 +11,7 @@ export class FireDatabaseService {
   constructor(private firestore: AngularFirestore) { }
 
   getProducts(): Observable<Product[]> {
-    return this.firestore.collection<Product>('productos').valueChanges({ idField: 'id' });
+    return this.firestore.collection<Product>('products').valueChanges({ idField: 'id' });
   }
 
   async createOC(user: string, orderDetails: CartItem[], total: number, subtotal: number, igv: number) {

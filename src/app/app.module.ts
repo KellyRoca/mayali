@@ -23,7 +23,7 @@ import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/conf
 import { PreviewOrderComponent } from './components/dialogs/preview-order/preview-order.component';
 import { GenerateOrderComponent } from './components/dialogs/generate-order/generate-order.component';
 import { NeedLoginComponent } from './components/dialogs/need-login/need-login.component';
-
+import { NgxSpinnerModule } from "ngx-spinner";
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +50,8 @@ import { NeedLoginComponent } from './components/dialogs/need-login/need-login.c
     AngularFirestoreModule,
     BrowserAnimationsModule,
     IonicStorageModule.forRoot(),
+    NgxSpinnerModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
   ],
   providers: [
     provideAnimationsAsync()

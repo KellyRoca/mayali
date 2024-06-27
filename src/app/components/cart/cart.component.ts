@@ -106,6 +106,7 @@ export class CartComponent implements OnInit, OnDestroy {
       width: '95%',
       maxWidth: '800px',
       autoFocus: false,
+      height: '90%',
       data: {}
     });
   }
@@ -130,4 +131,9 @@ export class CartComponent implements OnInit, OnDestroy {
   goTo(url: string) {
     this.router.navigate([url]);
   }
+
+  get isAnyItemSelected(): boolean {
+    return this.selectedItems.some(selected => selected);
+  }
+  
 }

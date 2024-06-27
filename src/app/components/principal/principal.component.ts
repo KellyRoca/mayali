@@ -1,11 +1,13 @@
-import { NeedLoginComponent } from './../dialogs/need-login/need-login.component';
-import { CartItem, Product } from './../../interface/model.d';
+import { CartItem, Product } from 'src/app/interface/model';
+import { NeedLoginComponent } from 'src/app/components/dialogs/need-login/need-login.component';
 import { Component, OnInit } from '@angular/core';
-import { CartService } from '../../services/cart.service';
-import { FireDatabaseService } from '../../services/firebase/fire-database.service';
+import { CartService } from 'src/app/services/cart.service';
+import { FireDatabaseService } from 'src/app/services/firebase/fire-database.service';
 import { Router } from '@angular/router';
 import { StorageService } from 'src/app/services/storage.service';
 import { MatDialog } from '@angular/material/dialog';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-principal',
@@ -13,25 +15,8 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./principal.component.scss']
 })
 export class PrincipalComponent implements OnInit {
-  // products: Product[] = [];
   hasUser: boolean = false;
-  products: Product[] = [
-    {
-      description: "Primor 900ml caja por 12 unidades",
-      id: "1",
-      img: "https://firebasestorage.googleapis.com/v0/b/dexmayali-pe.appspot.com/o/premium.png?alt=media&token=45705dda-d8ce-4758-85e4-51c13ca6e04d",
-      name: "Aceite primor",
-      price: 300
-    },
-    {
-      description: "Aceite Cocinero 2L",
-      id: "2",
-      img: "https://firebasestorage.googleapis.com/v0/b/dexmayali-pe.appspot.com/o/premium.png?alt=media&token=45705dda-d8ce-4758-85e4-51c13ca6e04d",
-      name: "Aceite primor",
-      price: 3
-    }
-  ]
-
+  products: Product[] = [];
   cart: CartItem[] = [];
 
   constructor(
@@ -40,26 +25,34 @@ export class PrincipalComponent implements OnInit {
     private router: Router,
     private storageService: StorageService,
     private dialog: MatDialog,
+    private spinner: NgxSpinnerService
   ) { }
 
 
   ngOnInit(): void {
-    this.storageService.get('user').subscribe((res) => {
-      this.hasUser = res == null ? false : true;
-    })
+    this.spinner.show();
 
-    this.cartService.setProductCatalog(this.products);
-    this.storageService.set('products', this.products);
-
-    this.storageService.get('cart').subscribe((res: null | CartItem[]) => {
-      if (res != null) {
-        this.cart = res;
+    forkJoin([
+      this.storageService.get('user'),
+      this.storageService.get('cart')
+    ]).subscribe(([user, cart]: [any, CartItem[] | null]) => {
+      this.hasUser = user == null ? false : true;
+      if (cart != null) {
+        this.cart = cart;
       }
     })
+
+    this.fireDatabase.getProducts().subscribe((res) => {
+      console.log(res);
+      this.products = res.sort((a, b) => a.name.localeCompare(b.name));
+      this.cartService.setProductCatalog(res);
+      this.storageService.set('products', res);
+      this.spinner.hide();
+    });
   }
 
   addToCart(product: Product) {
-    if(!this.hasUser) return this.openDialogRedirect();
+    if (!this.hasUser) return this.openDialogRedirect();
     let cartItem = this.cart.find(item => item.id === product.id);
     if (cartItem) {
       cartItem.quantity++;
@@ -69,7 +62,7 @@ export class PrincipalComponent implements OnInit {
     this.updateCartService();
   }
 
-  openDialogRedirect(){
+  openDialogRedirect() {
     this.dialog.open(NeedLoginComponent, {
       width: '90%',
       maxWidth: '570px',

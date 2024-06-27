@@ -1,4 +1,11 @@
-<app-header class="fixed w-full top-0 md:sticky z-50"></app-header>
+<app-header class="fixed w-full top-0 z-50"></app-header>
 <section  class="mt-[52px] md:mt-5">
   <router-outlet></router-outlet>
 </section>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  [fullScreen]="true"
+></ngx-spinner>

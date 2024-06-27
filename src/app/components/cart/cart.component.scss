@@ -24,8 +24,11 @@
   &__btn{
     height: 56px;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 12px;
     border-radius: 12px;
+    @media (min-width: 768px) {
+      font-size: 16px;
+    }
     &-border{
       border-color: var(--orange);
     }
