@@ -55,11 +55,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.authService.isAuthenticated$.subscribe(authenticated => {
-    //   this.isAuthenticated = authenticated;
-    // });
     this.storageService.get('user').subscribe((res) => {
-      console.log(res)
       if(res ==  null){
         this.isAuthenticated = false;
       }else {
@@ -111,7 +107,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   goTo(url: string) {
+    console.log('redirec', url)
     this.router.navigate([url]);
-    this.onMenuToggle();
+    // this.onMenuToggle();
   }
 }

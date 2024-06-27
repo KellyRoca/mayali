@@ -35,15 +35,6 @@ export class CartComponent implements OnInit, OnDestroy {
       console.log(this.cartItems, 'valuuueee')
       this.selectedItems = new Array(this.cartItems?.length).fill(false);
     })
-
-    // this.cartItems = this.cartService.getCart();
-    // this.selectedItems = new Array(this.cartItems?.length).fill(false);
-    // this.cartService.cartSubject$
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe((res) => {
-    //     this.cartItems = res === null ? [] : res;
-    //     this.selectedItems = new Array(this.cartItems?.length).fill(false);
-    //   });
   }
 
   ngOnDestroy(): void {

@@ -93,5 +93,6 @@ export class AuthService {
     await this.afAuth.signOut();
     await this._storage?.clear();
     this.router.navigate(['']);
+    location.reload();
   }
 }
