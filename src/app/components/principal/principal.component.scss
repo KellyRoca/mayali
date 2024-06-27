@@ -12,10 +12,13 @@
     flex-direction: column;
     width: 250px;
     height: 323px;
+    place-content: space-between;
   }
   &__description {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+    place-content: space-between;
   }
   &__name {
     font-size: 14px;
@@ -40,6 +43,12 @@
       width: 256px;
       height: 164px;
     }
+  }
+  &__add-btn {
+    height: 46px;
+    border-radius: 12px;
+    padding: 16px, 24px, 16px, 24px;
+    font-weight: 700;
   }
 }
 

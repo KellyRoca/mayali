@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/services/firebase/auth.service';
 // import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -27,17 +27,21 @@ export class LoginComponent implements OnInit {
     return;
   }
 
-  onSubmit() {
-    if(this.loginForm.valid){
-      this.authService.login();
-      this.router.navigate(['/']);
+  // onSubmit() {
+  //   if(this.loginForm.valid){
+  //     this.authService.signIn(this.loginForm.get("email").value, this.loginForm.get("password").value)
+  //     this.router.navigate(['/']);
+  //   }
+  // }
+
+  async onSubmit() {
+    if(this.loginForm.invalid) return;
+    try {
+      await this.authService.signIn(this.loginForm.get("email").value, this.loginForm.get("password").value);
+      console.log('User signed in successfully');
+      this.router.navigate(['/']); // Redirigir a la página de inicio después del inicio de sesión
+    } catch (error) {
+      console.error('Error signing in user:', error);
     }
-    // const { username, password } = this.loginForm.value;
-    // if (username === 'user' && password === 'password') {
-    //   this.authService.login();
-    //   this.router.navigate(['/']);
-    // } else {
-    //   this.loginError = true;
-    // }
   }
 }

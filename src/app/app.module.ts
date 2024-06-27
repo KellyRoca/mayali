@@ -9,7 +9,7 @@ import { OrderConfirmedComponent } from './components/order-confirmed/order-conf
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { SharedModule } from './components/shared/shared.module';
 import { RegisterComponent } from './components/auth/register/register.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { LoginComponent } from './components/auth/login/login.component';
 import { firebaseConfig } from './environments/firebase-config';
@@ -18,6 +18,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { MaterialModule } from './components/shared/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 @NgModule({
   declarations: [
@@ -34,11 +35,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     SharedModule,
     MaterialModule,
+    FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    IonicStorageModule.forRoot(),
   ],
   providers: [
     provideAnimationsAsync()

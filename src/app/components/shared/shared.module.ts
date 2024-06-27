@@ -6,6 +6,7 @@ import { CardComponent } from './card/card.component';
 import { HeaderMobileComponent } from './header-mobile/header-mobile.component';
 import { MaterialModule } from './material.module';
 import { ControlErrorHandlerPipe } from 'src/app/pipes/control-error-handler.pipe';
+import { StorageService } from 'src/app/services/storage.service';
 
 const components = [
   HeaderComponent,
@@ -22,6 +23,9 @@ const components = [
   imports: [
     CommonModule,
     MaterialModule,
+  ],
+  providers: [
+    StorageService
   ],
   exports: [
     ...components,

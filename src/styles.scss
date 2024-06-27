@@ -14,6 +14,13 @@ body,
   border-right: none !important;
 }
 
+.openSidebar {
+  mat-form-field,
+  .mat-accent {
+    z-index: -1 !important;
+  }
+}
+
 :root {
   --orange: #f27822;
   --cetacean: #000f49;
@@ -23,8 +30,7 @@ body,
   --yellow: #f2af22;
   --skyblue: #22a9f2;
   --green: #5cf222;
-  --cetacean-50: #000F4980;
-
+  --cetacean-50: #000f4980;
 }
 
 .fh1 {
@@ -96,9 +102,20 @@ mat-error {
   font-size: 10px;
 }
 
-.mayali-container{
+.mayali-container {
   min-height: calc(100dvh - 90px) !important;
   @media (min-width: 768px) {
     min-height: calc(100dvh - 120px) !important;
+  }
+}
+
+button.mdc-fab.mdc-fab--mini.mat-mdc-mini-fab.mat-accent.mat-mdc-button-base {
+  background: #f8f8f8;
+  border: 1px solid #37383e;
+  box-shadow: none;
+  width: 30px;
+  height: 30px;
+  mat-icon {
+    color: #37383e;
   }
 }

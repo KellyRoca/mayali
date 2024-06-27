@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../services/auth.service';
+import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/firebase/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   isAuthenticated: boolean = false;
-  openMenu: boolean = true;
+  openMenu: boolean = false;
+  isMobile = false;
 
   constructor(
     private authService: AuthService,
@@ -18,27 +19,75 @@ export class HeaderComponent implements OnInit {
 
   path: string;
 
-  ngOnInit(): void {
-    this.authService.isAuthenticated$.subscribe(authenticated => {
-      this.isAuthenticated = authenticated;
-    });
+  showCategories = false;
+  currentCategory: any = null;
+  cartItems = [
+    1
+    // Lista de elementos en el carrito
+  ];
+
+  categories = [
+    {
+      name: 'Aceites',
+      products: ['Cil', 'Cocinero', 'Mirasol', 'Primor']
+    },
+    {
+      name: 'Salsas',
+      products: ['Alpesa', 'Alacena']
+    },
+    {
+      name: 'Lejías',
+      products: ['Opal', 'Sapolio']
+    }
+  ];
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
+
+  ngOnInit() {
+    // this.authService.isAuthenticated$.subscribe(authenticated => {
+    //   this.isAuthenticated = authenticated;
+    // });
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isMobile = window.innerWidth < 768;
   }
 
   logout() {
-    this.authService.logout();
+    this.authService.signOut();
   }
 
   menuOpen = false;
 
-  onMenuToggle(e) {
-    console.log(e)
-    const navlinks = document.querySelector(".navLinks");
-    e.name = e.name === "menu" ? "close" : "menu";
-    this.openMenu = (e.name === "menu") ? false : true;
-    navlinks.classList.toggle("left-[0%]")
+  // onMenuToggle(e) {
+  //   const navlinks = document.querySelector(".navLinks");
+  //   e.name = e.name === "menu" ? "close" : "menu";
+  //   this.openMenu = (e.name === "menu") ? false : true;
+  //   navlinks.classList.toggle("left-[0%]")
+  //   if(e.name === "menu"){
+  //     document.body.classList.add('openSidebar');
+  //   }else{
+  //     document.body.classList.remove('openSidebar');
+  //   }
+  // }
+
+  onMenuToggle() {
+    this.openMenu = !this.openMenu;
+
+    if (this.openMenu) {
+      console.log('oo')
+      document.body.classList.add('openSidebar');
+    } else {
+      document.body.classList.remove('openSidebar');
+    }
+    
   }
 
-  goTo(url: string){
+  goTo(url: string) {
     this.router.navigate([url]);
   }
 }
