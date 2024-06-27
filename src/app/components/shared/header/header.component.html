@@ -40,53 +40,6 @@
   </nav>
 </header>
 
-
-<!-- <header *ngIf="!isAuthenticated;else headerAuth" class="mayali-header relative shadow-lg px-0 py-0 bg-white">
-  <nav class="flex justify-between bg-white">
-    <div class="w-[130px] md:w-[200px] flex items-center">
-      <section class="md:hidden">
-        <button name="menu" (click)="onMenuToggle()" class="text-[30px] cursor-pointer" mat-button>
-          <mat-icon class="scale-[2] mr-0 md:hidden">{{openMenu ? 'menu' : 'close'}}</mat-icon>
-        </button>
-      </section>
-      <p class="text-[var(--orange)] fh2 md:[fh4] cursor-pointer" (click)="goTo('')">mayali</p>
-      <div
-        class="navLinks duration-500 absolute z-100 md:static md:w-auto w-full md:h-auto h-[95vh] bg-white flex md:items-center gap-[1.5vw] top-[100%] left-[-100%] px-5 md:py-0 py-5">
-        <ul class="flex md:flex-row flex-col md:items-center md:gap-[2vw] gap-8">
-          <li class="relative flex flex-row items-center cursor-pointer" (mouseenter)="showCategories = true"
-            (mouseleave)="showCategories = false">
-            <mat-icon>apps</mat-icon>
-            Categorías
-            <ul *ngIf="showCategories" class="categories-menu absolute top-full left-0 bg-white shadow-lg">
-              <li *ngFor="let category of categories" class="relative" (mouseenter)="currentCategory = category"
-                (mouseleave)="currentCategory = null">
-                <a>{{category.name}}</a>
-                <ul *ngIf="currentCategory === category"
-                  class="products-menu absolute top-0 left-full bg-white shadow-lg">
-                  <li *ngFor="let product of category.products">
-                    <a>{{product}}</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="flex items-center gap-3">
-      <div class="flex items-center gap-2">
-        <section class="flex flex-row items-center place-content-center gap-4">
-          <mat-icon>person</mat-icon>
-          <mat-icon class="shopping-cart-icon" [ngClass]="{'has-items': cartItems.length > 0}">
-            shopping_cart
-            <span *ngIf="cartItems.length > 0" class="item-count">{{ cartItems.length }}</span>
-          </mat-icon>
-        </section>
-      </div>
-    </div>
-  </nav>
-</header> -->
-
 <ng-template #headerAuth>
   <header class="mayali-header relative shadow-lg px-0 py-0 bg-white">
     <nav class="flex justify-between bg-white">
@@ -134,18 +87,6 @@
           </ul>
         </div>
       </div>
-      <!-- <div class="flex items-center gap-3">
-        <div class="flex items-center gap-2">
-          <section class="flex flex-row items-center place-content-center gap-4">
-            <mat-icon class="md:block hidden" (click)="">person</mat-icon>
-            <mat-icon (click)="goTo('cart')" class="shopping-cart-icon cursor-pointer"
-              [ngClass]="{'has-items': cartItems.length > 0}">
-              shopping_cart
-              <span *ngIf="cartItems.length > 0" class="item-count">{{ cartItems.length }}</span>
-            </mat-icon>
-          </section>
-        </div>
-      </div> -->
       <div class="flex items-center gap-3">
         <div class="flex items-center gap-2">
           <section class="flex flex-row items-center place-content-center gap-4">
