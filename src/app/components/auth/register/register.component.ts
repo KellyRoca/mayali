@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/firebase/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-register',
@@ -19,6 +20,7 @@ export class RegisterComponent {
     private router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
+    private spinner: NgxSpinnerService
   ) {
     this.stepOneForm = this.fb.group({
       ruc: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
@@ -30,7 +32,7 @@ export class RegisterComponent {
 
     this.stepTwoForm = this.fb.group({
       docType: ['', [Validators.required]],
-      docNumber: ['', [Validators.required]],
+      docNumber: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       middleName: ['', [Validators.required]],
@@ -45,16 +47,19 @@ export class RegisterComponent {
   }
 
   async onSignUp() {
+    this.spinner.show();
     if (this.stepTwoForm.valid) {
       const { email, password, ruc } = this.stepOneForm.value;
       const { firstName, lastName, middleName, docType, docNumber, phone } = this.stepTwoForm.value;
 
       try {
         await this.authService.signUp(email, password, firstName, lastName, middleName, docType, docNumber, phone, ruc);
-        console.log('User created successfully');
+        // console.log('User created successfully');
+        this.spinner.hide();
         this.authService.setHasUser(true);
         this.router.navigate(['/']); // Redirigir a la página de inicio después del registro
       } catch (error) {
+        this.spinner.hide();
         if (error.message === 'EMAIL_ALREADY_IN_USE') {
           this.snackBar.open("El correo electrónico ya está en uso. Por favor, utiliza otro correo electrónico.", null, { duration: 3000 });
           this.stepOne = true; // Volver al primer paso para que el usuario pueda corregir el email

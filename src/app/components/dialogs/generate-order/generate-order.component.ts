@@ -48,7 +48,6 @@ export class GenerateOrderComponent implements OnInit {
   async onCreateOC(uid: string, total: number, subtotal: number, igv: number): Promise<void> {
     try {
       const orderId = await this.firebaseService.createOC(uid, this.cartDetails, total, subtotal, igv);
-      console.log('Orden creada exitosamente con ID:', orderId);
       this.orderUid = orderId;
       this.deleteCartDetails();
       this.spinner = false;

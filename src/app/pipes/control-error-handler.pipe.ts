@@ -10,8 +10,8 @@ export class ControlErrorHandlerPipe implements PipeTransform {
   private errorResolver = {
     required: () => "Es requerido.",
     email: () => "El correo electrónico no es válido.",
-    minlength: (error) => `Debe contener como mínimo ${error.requiredLength} caracteres.`,
-    maxlength: (error) => `Debe contener como máximo ${error.requiredLength} caracteres.`,
+    minlength: (error) => `Debe tener mínimo ${error.requiredLength} caracteres.`,
+    maxlength: (error) => `Debe tener máximo ${error.requiredLength} caracteres.`,
     matching: () => `Ambas contraseñas deben ser iguales`,
     isRuc20: () => `Debe ser un RUC 20.`,
     isInvalidAccount: () => `El número de cuenta es inválido`,

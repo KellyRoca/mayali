@@ -43,7 +43,6 @@ export class PrincipalComponent implements OnInit {
     })
 
     this.fireDatabase.getProducts().subscribe((res) => {
-      console.log(res);
       this.products = res.sort((a, b) => a.name.localeCompare(b.name));
       this.cartService.setProductCatalog(res);
       this.storageService.set('products', res);

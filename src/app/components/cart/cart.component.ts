@@ -32,7 +32,6 @@ export class CartComponent implements OnInit, OnDestroy {
     this.storageService.get('cart').subscribe((res: CartItem[]) => {
       this.cartItems = res == null ? []: res;
       this.cd.detectChanges();
-      console.log(this.cartItems, 'valuuueee')
       this.selectedItems = new Array(this.cartItems?.length).fill(false);
     })
   }
@@ -106,7 +105,7 @@ export class CartComponent implements OnInit, OnDestroy {
       width: '95%',
       maxWidth: '800px',
       autoFocus: false,
-      height: '90%',
+      height: '70%',
       data: {}
     });
   }

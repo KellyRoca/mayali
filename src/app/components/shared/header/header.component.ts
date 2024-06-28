@@ -107,8 +107,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   goTo(url: string) {
-    console.log('redirec', url)
     this.router.navigate([url]);
-    // this.onMenuToggle();
   }
 }

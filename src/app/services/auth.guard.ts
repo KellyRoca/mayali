@@ -23,7 +23,6 @@ export class AuthGuard implements CanActivate {
     }
 
     const user = await this._storage?.get('user');
-    console.log(user);
 
     if (user) {
       return true;
